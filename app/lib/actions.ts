@@ -70,7 +70,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
     };
   }
  
-  // Revalidate the cache for the invoices page and redirect the user.
+  // Revalidate the cache for the invoices page and redirect the Admin.
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
