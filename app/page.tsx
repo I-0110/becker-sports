@@ -1,4 +1,3 @@
-import SportsLogo from './ui/sports-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import styles from '@/app/ui/home.module.css';
@@ -15,9 +14,9 @@ export default function Page() {
         <div className={styles.shape} />
           <p className={`${merriweather.className}text-xl text-gray-800 md:text-3xl md:leading-normal`}>
             <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <a href="https://nextjs.org/learn/" className="text-chief-400">
+            <Link href="https://nextjs.org/learn/" className="text-chief-400">
               Next.js Learn Course
-            </a>
+            </Link>
             , brought to you by Vercel.
           </p>
           <Link
@@ -27,22 +26,30 @@ export default function Page() {
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
         </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
-          <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className='hidden md:block'
-            alt='Screenshots of the dashboard project showing desktop version'
-          />
-          <Image
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
-            className='block md:hidden'
-            alt='Screenshots of the dashboard project showing monile version'
-          />
+        <div className="flex justify-center max-w-6xl mx-auto px-4">
+          {/* Desktop Video - 16:9 aspect ratio */}
+          <div className="hidden md:block w-full aspect-video">
+              <iframe 
+              className="w-full h-full rounded-lg"
+              src="https://www.youtube.com/embed/mt5eWqVj-gc?autoplay=1&mute=1&controls=1" 
+              title="Burnt Ends vs Cuban Sandwich"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerPolicy="strict-origin-when-cross-origin" 
+              allowFullScreen 
+              />
+          </div>
+          
+          {/* Mobile Video - 16:9 aspect ratio */}
+          <div className="block md:hidden w-full aspect-video">
+              <iframe 
+              className="w-full h-full rounded-lg"
+              src="https://www.youtube.com/embed/CtNAzlU7h4Q?autoplay=1&mute=1&controls=1" 
+              title="Pittsburgh Smoked Ham vs Miami-Cuban Sandwich" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerPolicy="strict-origin-when-cross-origin" 
+              allowFullScreen 
+              />
+          </div>
         </div>
       </div>
     </main>
