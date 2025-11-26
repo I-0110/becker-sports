@@ -10,14 +10,9 @@ export default function Page() {
     <main className="flex min-h-screen flex-col p-6">
       <NavBar />
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-chief-50 px-6 py-10 md:w-2/5 md:px-20">
-        <div className={styles.shape} />
-          <p className={`${merriweather.className}text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <Link href="https://nextjs.org/learn/" className="text-chief-400">
-              Next.js Learn Course
-            </Link>
-            , brought to you by Vercel.
+        <div className="flex flex-col justify-center gap-6 rounded-lg bg-chief-50 dark:bg-chief-400 dark:border-2 dark:border-chief-50 px-6 py-10">
+          <p className={`${merriweather.className}text-xl text-chief-400 dark:text-chief-50 md:text-3xl md:leading-normal`}>
+            Welcome to <strong>Becker Sports</strong>. For newbies, experts, and etcetera. Football or baseball fans. Here we are all reading this.
           </p>
           <Link
             href="/login"
@@ -26,11 +21,11 @@ export default function Page() {
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
         </div>
-        <div className="flex justify-center max-w-6xl mx-auto px-4">
+        <div className="flex justify-center">
           {/* Desktop Video - 16:9 aspect ratio */}
-          <div className="hidden md:block w-full aspect-video">
+          <div className="hidden md:block w-full h-full">
               <iframe 
-              className="w-full h-full rounded-lg"
+              className="rounded-lg"
               src="https://www.youtube.com/embed/mt5eWqVj-gc?autoplay=1&mute=1&controls=1" 
               title="Burnt Ends vs Cuban Sandwich"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
