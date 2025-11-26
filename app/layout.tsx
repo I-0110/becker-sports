@@ -4,11 +4,14 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Acme Dashboard',
-    default: 'Acme Dashboard',
+    template: '%s | Becker Sports',
+    default: 'Becker Sports',
   },
-  description: 'The official Next.js Course Dashboard.',
-  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+  description: "By Alex Becker",
+  icons: {
+    icon: 'sports.png',
+  },
+  metadataBase: new URL('https://www.beckersports.com'),
 }
 
 export default function RootLayout({

@@ -20,7 +20,7 @@ export default function Error({
       <LinkSlashIcon className="w-10 text-gray-400" />
       <h2 className="text-center">Something went wrong!</h2>
       <button
-        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+        className="mt-4 rounded-md bg-chief-300 px-4 py-2 text-sm text-white transition-colors hover:bg-chief-100"
         onClick={
           // Attempt to recover by trying to re-render the invoices route
           () => reset()
