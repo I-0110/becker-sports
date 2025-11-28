@@ -1,17 +1,17 @@
 import Form from '@/app/ui/posts/edit-form';
 import Breadcrumbs from '@/app/ui/posts/breadcrumbs';
-import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
+import { fetchAdmins, fetchPostById } from '@/app/lib/data';
 import { notFound } from 'next/navigation'; 
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [invoice, customers] = await Promise.all([
-    fetchInvoiceById(id),
-    fetchCustomers(),
+  const [post, admins] = await Promise.all([
+    fetchPostById(id),
+    fetchAdmins(),
   ]);
 
-  if (!invoice) {
+  if (!post) {
     notFound();
   }
 
@@ -19,15 +19,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Invoices', href: '/dashboard/invoices' },
+          { label: 'posts', href: '/admin-dashboard/posts' },
           {
-            label: 'Edit Invoice',
-            href: `/dashboard/invoices/${id}/edit`,
+            label: 'Edit Post',
+            href: `/admin-dashboard/posts/${id}/edit`,
             active: true,
           },
         ]}
       />
-      <Form invoice={invoice} customers={customers} />
+      <Form post={post} admins={admins} />
     </main>
   );
 }
