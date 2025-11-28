@@ -46,12 +46,6 @@ const links = [
     href: '/hof',
     icon: TrophyIcon
   },
-  {
-    name: 'Sunday Night Foodball',
-    href: '/snf',
-    icon: '/nav-links/steak.svg',
-    type: 'image' as const
-  },
 ];
 
 export default function NavLinks() {

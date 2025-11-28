@@ -2,15 +2,15 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { merriweather } from '@/app/ui/fonts';
-import { fetchLatestInvoices } from '@/app/lib/data';
+import { fetchLatestPosts } from '@/app/lib/data';
 
-export default async function LatestInvoices() {
-  const latestInvoices = await fetchLatestInvoices();
+export default async function LatestPosts() {
+  const latestPosts = await fetchLatestPosts();
   
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${merriweather.className} mb-4 text-xl md:text-2xl`}>
-        Latest Invoices
+        Latest Posts
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-chief-50 p-4">
         {/* NOTE: Uncomment this code in Chapter 7 */}

@@ -18,5 +18,5 @@ export async function middleware(request: NextRequest) {
 
 // Protect dashboard routes
 export const config = {
-    matcher: ['/dashboard/:path*'],
+    matcher: ['/admin-dashboard/:path*'],
 };

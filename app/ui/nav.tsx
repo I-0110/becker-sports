@@ -102,13 +102,13 @@ export default function NavBar() {
           open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-50'
         }`}
       >
-        <div className="px-4 pt-2 pb-4 space-y-1 bg-chief-200 border-t border-chief-300">
+        <div className="px-4 pt-2 pb-4 space-y-1 bg-chief-200 border-t border-chief-300 dark:bg-chief-400 dark:border-2 dark:border-chief-50">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block px-3 py-3 text-chief-400 hover:bg-chief-400/50 hover:text-chief-100 rounded-md font-medium transition-colors"
+              className="block px-3 py-3 text-chief-400 dark:text-chief-50 hover:bg-chief-400/50 hover:text-chief-100 rounded-md font-medium transition-colors"
             >
               {link.name}
             </Link>

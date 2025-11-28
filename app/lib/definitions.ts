@@ -9,21 +9,21 @@ export type Admin = {
   password: string;
 };
 
-export type Customer = {
+export type Subscriber = {
   id: string;
   name: string;
   email: string;
   image_url: string;
 };
 
-export type Invoice = {
+export type Post = {
   id: string; // Will be created on the db
-  customer_id: string;
-  amount: number; // Stored in cents
+  admin_id: string;
+  // amount: number; // Stored in cents
   date: string; 
   // In TypeScript, this is called a string union type.
   // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-  status: 'pending' | 'paid';
+  status: 'draft' | 'publish';
 };
 
 export type Revenue = {
@@ -31,60 +31,69 @@ export type Revenue = {
   revenue: number;
 };
 
-export type LatestInvoice = {
+export type LatestPost = {
   id: string;
-  name: string;
+  name: string; //Admin name
+  title: string;
   image_url: string;
-  email: string;
-  amount: string;
+  video_url: string;
+  // email: string;
+  // amount: string;
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
-export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
-  amount: number;
+export type LatestPostRaw = {
+  // amount: number;
+  id: string;
+  name: string;
+  title: string;
+  image_url: string;
+  video_url: string;
 };
 
-export type InvoicesTable = {
+export type PostsTable = {
   id: string;
-  customer_id: string;
+  admin_id: string;
   name: string;
-  email: string;
+  title: string;
+  content: string;
   image_url: string;
+  video_url: string;
   date: string;
-  amount: number;
-  status: 'pending' | 'paid';
+  // amount: number;
+  status: 'draft' | 'publish';
 };
 
-export type CustomersTableType = {
+export type AdminsTableType = {
+  id: string;
+  name: string;
+  email: string;
+  total_posts: number;
+};
+
+export type FormattedSubscribersTable = {
   id: string;
   name: string;
   email: string;
   image_url: string;
-  total_invoices: number;
-  total_pending: number;
-  total_paid: number;
+  total_posts: number;
+  // total_invoices: number;
+  // total_pending: string;
+  // total_paid: string;
 };
 
-export type FormattedCustomersTable = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: string;
-  total_paid: string;
-};
-
-export type CustomerField = {
+export type AdminField = {
   id: string;
   name: string;
 };
 
-export type InvoiceForm = {
+export type PostForm = {
   id: string;
-  customer_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
+  admin_id: string;
+  title: string;
+  content: string;
+  // amount: number;
+  status: 'draft' | 'publish';
 };
 
 // SNF videos

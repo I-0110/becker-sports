@@ -7,14 +7,14 @@ import {
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from './button';
+import { Button } from '../button';
 import { useActionState } from 'react';
-import { authenticate } from '../lib/actions'; // TODO: Create a authentication for subscribers
+import { authenticate } from '../../lib/actions';
 import { useSearchParams } from 'next/navigation';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const callbackUrl = searchParams.get('callbackUrl') || '/admin-dashboard';
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
     undefined,

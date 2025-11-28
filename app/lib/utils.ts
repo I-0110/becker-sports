@@ -1,12 +1,5 @@
 import { Revenue } from './definitions';
 
-export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-};
-
 export const formatDateToLocal = (
   dateStr: string,
   locale: string = 'en-US',
@@ -17,6 +10,23 @@ export const formatDateToLocal = (
     month: 'short',
     year: 'numeric',
   };
+  const formatter = new Intl.DateTimeFormat(locale, options);
+  return formatter.format(date);
+};
+
+export const formatDateTimeToLocal = (
+  dateStr: string,
+  locale: string = 'en-US',
+) => {
+  const date = new Date(dateStr);
+  const options: Intl.DateTimeFormatOptions = {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
 };
@@ -66,4 +76,9 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     '...',
     totalPages,
   ];
+};
+
+export const truncateText = (text: string, maxLength: number = 150) => {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).trim() + '...';
 };
