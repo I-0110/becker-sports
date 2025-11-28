@@ -1,13 +1,13 @@
-import SportsLogo from "../ui/sports-logo";
-import LoginForm from "../ui/login-form";
+import SportsLogo from "../../ui/sports-logo";
+import LoginForm from "../../ui/admin-dashboard/admin-login";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Login',
+  title: 'Admin Login',
 }
 
-export default function LoginPage() {
+export default function AdminLoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
