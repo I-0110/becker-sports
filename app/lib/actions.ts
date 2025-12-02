@@ -18,6 +18,7 @@ const FormSchema = z.object({
     content: z.string().min(1, { message: 'Please enter a content.' }),
     imageUrl: z.string().optional(),
     videoUrl: z.string().optional(),
+    category: z.enum(['101', 'chiefs', 'draft', 'fantasy', 'hof' ]),
     status: z.enum(['draft', 'publish'], {
         invalid_type_error: 'Please select a post status.',
     }),
@@ -56,14 +57,14 @@ export async function createPost(prevState: State, formData: FormData) {
   }
  
   // Prepare data for insertion into the database
-  const { adminId, title, content,status } = validatedFields.data;
+  const { adminId, title, content, category, status } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
  
   // Insert data into the database
   try {
     await sql`
-      INSERT INTO posts (admin_id, status, date)
-      VALUES (${adminId}, ${title}, ${content}, ${status}, ${date})
+      INSERT INTO posts (admin_id, title, content, category, status, date)
+      VALUES (${adminId}, ${title}, ${content}, ${category}, ${status}, ${date})
     `;
   } catch (error) {
     // If a database error occurs, return a more specific error.
@@ -86,6 +87,7 @@ export async function editPost(
         adminId: formData.get('adminId'),
         title: formData.get('title'),
         content: formData.get('content'),
+        category: formData.get('category'),
         status: formData.get('status'),
     });
 
@@ -96,12 +98,12 @@ export async function editPost(
       }
     }
 
-    const { adminId, title, content, status } = validatedFields.data;
+    const { adminId, title, content, category, status } = validatedFields.data;
 
     try{
         await sql`
             UPDATE posts
-            SET admin_id = ${adminId}, title = ${title}, content = ${content}, status = ${status}
+            SET admin_id = ${adminId}, title = ${title}, content = ${content}, category = ${category}, status = ${status}
             WHERE id = ${id}
         `;
     } catch (error) {

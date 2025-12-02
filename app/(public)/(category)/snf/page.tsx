@@ -1,7 +1,7 @@
 import { merriweather } from '@/app/ui/fonts';
 import Link from 'next/link';
-import { getMixedVideos } from '../../lib/snf-videos';
-import VideoGrid from '../../ui/snf/video-grid';
+import { getMixedVideos } from '../../../lib/snf-videos';
+import VideoGrid from '../../../ui/snf/video-grid';
 import NavBar from '@/app/ui/nav';
 
 export default async function Page() {

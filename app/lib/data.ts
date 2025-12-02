@@ -6,23 +6,14 @@ import {
   PostsTable,
   LatestPostRaw,
   Revenue,
+  CategoryStats,
 } from './definitions';
-// import { formatCurrency } from './utils';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function fetchRevenue() {
   try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
-
-    // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
-
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
-
-    // console.log('Data fetch completed after 3 seconds.');
-
     return data;
   } catch (error) {
     console.error('Database Error:', error);
@@ -33,9 +24,16 @@ export async function fetchRevenue() {
 export async function fetchLatestPosts() {
   try {
     const data = await sql<LatestPostRaw[]>`
-      SELECT posts.id, posts.title, posts.image_url, posts.video_url, admins.name, posts.id
+      SELECT 
+        posts.id, 
+        posts.title, 
+        posts.category, 
+        posts.image_url, 
+        posts.video_url, 
+        admins.name
       FROM posts
       JOIN admins ON posts.admin_id = admins.id
+      WHERE posts.status = 'publish'
       ORDER BY posts.date DESC
       LIMIT 5`;
 
@@ -48,9 +46,6 @@ export async function fetchLatestPosts() {
 
 export async function fetchCardData() {
   try {
-    // You can probably combine these into a single SQL query
-    // However, we are intentionally splitting them to demonstrate
-    // how to initialize multiple queries in parallel with JS.
     const postCountPromise = sql`SELECT COUNT(*) FROM posts`;
     const subscriberCountPromise = sql`SELECT COUNT(*) FROM subscribers`;
     const postStatusPromise = sql`SELECT
@@ -81,7 +76,27 @@ export async function fetchCardData() {
   }
 }
 
+export async function fetchCategoryStats() {
+  try {
+    const data = await sql<CategoryStats[]>`
+      SELECT 
+        category,
+        COUNT(*) as count
+      FROM posts
+      WHERE status = 'publish'
+      GROUP BY category
+      ORDER BY count DESC
+    `;
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch category stats.');
+  }
+}
+
 const ITEMS_PER_PAGE = 6;
+
+// This is for ADMIN DASHBOARD - searching/filtering posts
 export async function fetchFilteredPosts(
   query: string,
   currentPage: number,
@@ -95,11 +110,12 @@ export async function fetchFilteredPosts(
         posts.admin_id,
         posts.title,
         posts.content,
+        posts.category,
         posts.image_url,
         posts.video_url,
         posts.date,
         posts.status,
-        admins.name,
+        admins.name
       FROM posts
       JOIN admins ON posts.admin_id = admins.id
       WHERE
@@ -107,6 +123,7 @@ export async function fetchFilteredPosts(
         posts.title ILIKE ${`%${query}%`} OR
         posts.content ILIKE ${`%${query}%`} OR
         posts.date::text ILIKE ${`%${query}%`} OR
+        posts.category ILIKE ${`%${query}%`} OR
         posts.status ILIKE ${`%${query}%`}
       ORDER BY posts.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
@@ -119,6 +136,64 @@ export async function fetchFilteredPosts(
   }
 }
 
+// This is for PUBLIC PAGES - getting posts by specific category
+export async function fetchPostsByCategory(category: string, limit?: number) {
+  try {
+    const posts = await sql<PostsTable[]>`
+      SELECT
+        posts.id,
+        posts.admin_id,
+        posts.title,
+        posts.content,
+        posts.category,
+        posts.image_url,
+        posts.video_url,
+        posts.date,
+        posts.status,
+        admins.name
+      FROM posts
+      JOIN admins ON posts.admin_id = admins.id
+      WHERE posts.category = ${category} AND posts.status = 'publish'
+      ORDER BY posts.date DESC
+      ${limit ? sql`LIMIT ${limit}` : sql``}
+    `;
+
+    return posts;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch posts by category.');
+  }
+}
+
+// This is for PUBLIC PAGES - getting all published posts
+export async function fetchPublishedPosts(limit?: number) {
+  try {
+    const posts = await sql<PostsTable[]>`
+      SELECT
+        posts.id,
+        posts.admin_id,
+        posts.title,
+        posts.content,
+        posts.category,
+        posts.image_url,
+        posts.video_url,
+        posts.date,
+        posts.status,
+        admins.name
+      FROM posts
+      JOIN admins ON posts.admin_id = admins.id
+      WHERE posts.status = 'publish'
+      ORDER BY posts.date DESC
+      ${limit ? sql`LIMIT ${limit}` : sql``}
+    `;
+
+    return posts;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch published posts.');
+  }
+}
+
 export async function fetchPostsPages(query: string) {
   try {
     const data = await sql`SELECT COUNT(*)
@@ -128,6 +203,7 @@ export async function fetchPostsPages(query: string) {
       admins.name ILIKE ${`%${query}%`} OR
       posts.title ILIKE ${`%${query}%`} OR
       posts.content ILIKE ${`%${query}%`} OR
+      posts.category ILIKE ${`%${query}%`} OR
       posts.date::text ILIKE ${`%${query}%`} OR
       posts.status ILIKE ${`%${query}%`}
   `;
@@ -148,6 +224,7 @@ export async function fetchPostById(id: string) {
         posts.admin_id,
         posts.title,
         posts.content,
+        posts.category,
         posts.status
       FROM posts
       WHERE posts.id = ${id};
@@ -190,7 +267,7 @@ export async function fetchFilteredAdmins(query: string) {
 		WHERE
 		  admins.name ILIKE ${`%${query}%`} OR
       admins.email ILIKE ${`%${query}%`}
-		GROUP BY admins.id, admins.name, admins.email,
+		GROUP BY admins.id, admins.name, admins.email
 		ORDER BY admins.name ASC
 	  `;
 

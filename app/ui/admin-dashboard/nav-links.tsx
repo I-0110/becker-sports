@@ -2,9 +2,8 @@
 
 import {
   HomeIcon,
-  AcademicCapIcon,
-  TrophyIcon,
-  BanknotesIcon,
+  PencilSquareIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,35 +15,18 @@ import clsx from 'clsx';
 const links = [
   { 
     name: 'Home', 
-    href: '/home', 
+    href: '/admin-dashboard', 
     icon: HomeIcon 
   },
   { 
-    name: '101', 
-    href: '/101', 
-    icon: AcademicCapIcon 
+    name: 'Posts', 
+    href: '/admin-dashboard/posts', 
+    icon: PencilSquareIcon 
   },
   { 
-    name: 'Chiefs', 
-    href: '/chiefs', 
-    icon: '/nav-links/Chiefs.png',
-    type: 'image' as const
-  },
-  { 
-    name: 'Draft', 
-    href: '/draft', 
-    icon: '/nav-links/Draft.png',
-    type: 'image' as const
-  },
-  { 
-    name: 'Fantasy', 
-    href: '/fantasy', 
-    icon: BanknotesIcon 
-  },
-  {
-    name: 'Hall of Fame',
-    href: '/hof',
-    icon: TrophyIcon
+    name: 'Subscribers', 
+    href: '/admin-dashboard/subscribers', 
+    icon: UserGroupIcon
   },
 ];
 
@@ -63,25 +45,7 @@ export default function NavLinks() {
                 'bg-chief-300 text-chief-50 dark:bg-chief-300 dark:text-chief-50': pathname === link.href,
               },
             )}
-          >
-            {link.type === 'image' ? (
-            <div className='w-6 h-6 flex items-center justify-center flex-shrink-0'>
-              <Image 
-                src={link.icon as string} 
-                alt="" 
-                width={24} 
-                height={24}
-                className="w-full h-full object-contain"
-              />               
-            </div>
-            ) : (
-              (() => {
-                const LinkIcon = link.icon as React.ComponentType<{ className?: string }>;
-                return <LinkIcon className="w-6" />;
-              })()
-            )}
-            <p className="hidden md:block">{link.name}</p>
-          </Link>
+          />
         );
       })}
     </>

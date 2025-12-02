@@ -19,22 +19,27 @@ export type Subscriber = {
 export type Post = {
   id: string; // Will be created on the db
   admin_id: string;
-  // amount: number; // Stored in cents
   date: string; 
+  title: string;
+  content: string;
+  image_url?: string;
+  video_url?: string;
+  category: '101' | 'chiefs' | 'draft' | 'fantasy' | 'hof';
   // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
+  // It means that the "status" property can only be one of the two strings: 'draft' or 'publish'.
   status: 'draft' | 'publish';
 };
 
 export type Revenue = {
   month: string;
-  revenue: number;
+  // revenue: number;
 };
 
 export type LatestPost = {
   id: string;
   name: string; //Admin name
   title: string;
+  category: string;
   image_url: string;
   video_url: string;
   // email: string;
@@ -43,10 +48,10 @@ export type LatestPost = {
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestPostRaw = {
-  // amount: number;
   id: string;
   name: string;
   title: string;
+  category: string;
   image_url: string;
   video_url: string;
 };
@@ -60,7 +65,7 @@ export type PostsTable = {
   image_url: string;
   video_url: string;
   date: string;
-  // amount: number;
+  category: string;
   status: 'draft' | 'publish';
 };
 
@@ -92,9 +97,15 @@ export type PostForm = {
   admin_id: string;
   title: string;
   content: string;
-  // amount: number;
+  category: '101' | 'chiefs' | 'draft' | 'fantasy' | 'hof';
   status: 'draft' | 'publish';
 };
+
+// Category stats for dashboard
+export type CategoryStats = {
+  category: string;
+  count: number;
+}
 
 // SNF videos
 export type Video = {

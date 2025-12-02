@@ -15,6 +15,31 @@ const admins = [
   },
 ];
 
+const posts = [
+  {
+    id: '410544b2-4001-4271-9850-fec4b6a6442a',
+    admin_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    date: '2025-11-28', 
+    title: 'Welcome to Becker Sports!',
+    content: 'This is our first post about sports news and updates. Stay tuned for more exciting content!',
+    category: 'chiefs',
+    image_url: '/sports.png',
+    video_url: 'https://www.youtube.com/watch?v=CLyCt9-742o&t=70s',
+    status: 'publish',
+  },
+  {
+    id: '410544b2-4001-4271-9851-fec4b6a6443b',
+    admin_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    date: '2025-11-28', 
+    title: 'Alex Becker',
+    content: 'Meet the guy behind the writing. From Hays, KS, he grew up watching football with his dad and seeing the ups and downs of the Chief for more than 30 years. He studied statistics at K-State. What Alex\'s brings? Neutral stats about players, projects that you might be interesting in reading, and food (while you read his posts).',
+    category: 'chiefs',
+    image_url: '/customers/michael-novotny.png',
+    video_url: 'https://www.youtube.com/watch?v=eoAkV50wDtc&t=9s',
+    status: 'publish',
+  }
+]
+
 const subscribers = [
   {
     id: 'd6e15727-9fe1-4961-8c5b-ea44a9bd81aa',
@@ -69,4 +94,4 @@ const revenue = [
   { month: 'Dec' },
 ];
 
-export { admins, revenue };
+export { subscribers, posts, admins, revenue };

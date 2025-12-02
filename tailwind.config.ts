@@ -20,6 +20,18 @@ const config: Config = {
           300: '#ca2430', // deep red = primary brand color (header, links)
           400: '#000000', // darkest - black = light mode text, dark mode background
         },
+        badge: { 
+          50: '#002752', // prussian blue = '101'
+          100: '#2990FF', // dodger blue = ' text 101'
+          200: '#ca2430', // deep red = 'Chiefs'
+          300: '#A01C25', // darker red = 'text Chiefs'
+          400: '#0081c5', // steel blue = 'Draft'
+          500: '#00669C', // baltic blue = 'text Draft' 
+          600: '#0eb049', // medium jungle = 'Fantasy'
+          700: '#0B8939', // forrest green = 'text Fantasy'
+          800: '#c49328', // dark goldenrod = 'Hall of Fame'
+          900: '#9a7227', // golden earth = 'text Hall of Fame'
+        }
       },
     },
     keyframes: {

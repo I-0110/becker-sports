@@ -1,11 +1,19 @@
 import bcrypt from 'bcrypt';
 import postgres from 'postgres';
-import { invoices, customers, revenue, admins } from '../lib/placeholder-data';
+import { posts, subscribers, revenue, admins } from '../lib/placeholder-data';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-async function dropUsersTable() {
-  await sql `DROP TABLE IF EXISTS users`;
+async function dropAdminsTable() {
+  await sql `DROP TABLE IF EXISTS admins CASCADE`;
+}
+
+async function dropPostsTable() {
+  await sql `DROP TABLE IF EXISTS posts CASCADE`;
+}
+
+async function dropSubscribersTable() {
+  await sql`DROP TABLE IF EXISTS subscribers CASCADE`;
 }
 
 async function seedAdmins() {
@@ -15,7 +23,8 @@ async function seedAdmins() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email TEXT NOT NULL UNIQUE,
-      password TEXT NOT NULL
+      password TEXT NOT NULL,
+      image_url VARCHAR(255)
     );
   `;
 
@@ -33,62 +42,75 @@ async function seedAdmins() {
   return insertedAdmins;
 }
 
-async function seedInvoices() {
+async function seedPosts() {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
   await sql`
-    CREATE TABLE IF NOT EXISTS invoices (
+    CREATE TABLE IF NOT EXISTS posts (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      customer_id UUID NOT NULL,
-      amount INT NOT NULL,
-      status VARCHAR(255) NOT NULL,
-      date DATE NOT NULL
+      admin_id UUID NOT NULL,
+      title VARCHAR(250) NOT NULL,
+      content TEXT NOT NULL,
+      image_url VARCHAR(255),
+      video_url VARCHAR(255),
+      category VARCHAR(50) NOT NULL,
+      status VARCHAR(20) NOT NULL CHECK (status IN ('draft', 'publish')),
+      date DATE NOT NULL,
+      FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE CASCADE
     );
   `;
 
-  const insertedInvoices = await Promise.all(
-    invoices.map(
-      (invoice) => sql`
-        INSERT INTO invoices (customer_id, amount, status, date)
-        VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
+  const insertedPosts = await Promise.all(
+    posts.map(
+      (post) => sql`
+        INSERT INTO posts (admin_id, title, content, image_url, video_url, category, status, date)
+        VALUES (
+          ${post.admin_id}, 
+          ${post.title}, 
+          ${post.content || 'Default content'},
+          ${post.image_url || null},
+          ${post.video_url || null},
+          ${post.category},
+          ${post.status}, 
+          ${post.date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
 
-  return insertedInvoices;
+  return insertedPosts;
 }
 
-async function seedCustomers() {
+async function seedSubscribers() {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
   await sql`
-    CREATE TABLE IF NOT EXISTS customers (
+    CREATE TABLE IF NOT EXISTS subscribers (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL,
-      image_url VARCHAR(255) NOT NULL
+      email VARCHAR(255) NOT NULL UNIQUE,
+      image_url VARCHAR(255)
     );
   `;
 
-  const insertedCustomers = await Promise.all(
-    customers.map(
-      (customer) => sql`
-        INSERT INTO customers (id, name, email, image_url)
-        VALUES (${customer.id}, ${customer.name}, ${customer.email}, ${customer.image_url})
+  const insertedSubscribers = await Promise.all(
+    subscribers.map(
+      (subscriber) => sql`
+        INSERT INTO subscribers (id, name, email, image_url)
+        VALUES (${subscriber.id}, ${subscriber.name}, ${subscriber.email}, ${subscriber.image_url})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
 
-  return insertedCustomers;
+  return insertedSubscribers;
 }
 
 async function seedRevenue() {
   await sql`
     CREATE TABLE IF NOT EXISTS revenue (
       month VARCHAR(4) NOT NULL UNIQUE,
-      revenue INT NOT NULL
+      revenue INT NOT NULL DEFAULT 0
     );
   `;
 
@@ -96,7 +118,7 @@ async function seedRevenue() {
     revenue.map(
       (rev) => sql`
         INSERT INTO revenue (month, revenue)
-        VALUES (${rev.month}, ${rev.revenue})
+        VALUES (${rev.month}, 0)
         ON CONFLICT (month) DO NOTHING;
       `,
     ),
@@ -107,16 +129,22 @@ async function seedRevenue() {
 
 export async function GET() {
   try {
-    const result = await sql.begin((sql) => [
-      dropUsersTable(),
-      seedAdmins(),
-      seedCustomers(),
-      seedInvoices(),
-      seedRevenue(),
-    ]);
+    await sql.begin(async (sql) => {
+      // Drop tables in correct order (posts must be dropped before admins due to foreign key)
+      await dropPostsTable();
+      await dropSubscribersTable();
+      await dropAdminsTable();
+
+      // Seed in correct order (admins must exist before posts)
+      await seedAdmins();
+      await seedSubscribers();
+      await seedPosts();
+      await seedRevenue();
+    });
 
     return Response.json({ message: 'Database seeded successfully' });
   } catch (error) {
+    console.error('Seeding error:', error);
     return Response.json({ error }, { status: 500 });
   }
 }
