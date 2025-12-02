@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import postgres from 'postgres';
-import { posts, subscribers, revenue, admins } from '../lib/placeholder-data';
+import { posts, subscribers, admins } from '../lib/placeholder-data';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -106,27 +106,6 @@ async function seedSubscribers() {
   return insertedSubscribers;
 }
 
-async function seedRevenue() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS revenue (
-      month VARCHAR(4) NOT NULL UNIQUE,
-      revenue INT NOT NULL DEFAULT 0
-    );
-  `;
-
-  const insertedRevenue = await Promise.all(
-    revenue.map(
-      (rev) => sql`
-        INSERT INTO revenue (month, revenue)
-        VALUES (${rev.month}, 0)
-        ON CONFLICT (month) DO NOTHING;
-      `,
-    ),
-  );
-
-  return insertedRevenue;
-}
-
 export async function GET() {
   try {
     await sql.begin(async (sql) => {
@@ -139,7 +118,6 @@ export async function GET() {
       await seedAdmins();
       await seedSubscribers();
       await seedPosts();
-      await seedRevenue();
     });
 
     return Response.json({ message: 'Database seeded successfully' });

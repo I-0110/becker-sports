@@ -23,7 +23,7 @@ const posts = [
     title: 'Welcome to Becker Sports!',
     content: 'This is our first post about sports news and updates. Stay tuned for more exciting content!',
     category: 'chiefs',
-    image_url: '/sports.png',
+    image_url: 'https://en.wikipedia.org/wiki/File:American_football.svg',
     video_url: 'https://www.youtube.com/watch?v=CLyCt9-742o&t=70s',
     status: 'publish',
   },
@@ -34,7 +34,7 @@ const posts = [
     title: 'Alex Becker',
     content: 'Meet the guy behind the writing. From Hays, KS, he grew up watching football with his dad and seeing the ups and downs of the Chief for more than 30 years. He studied statistics at K-State. What Alex\'s brings? Neutral stats about players, projects that you might be interesting in reading, and food (while you read his posts).',
     category: 'chiefs',
-    image_url: '/customers/michael-novotny.png',
+    image_url: 'https://en.wikipedia.org/wiki/File:American_football.svg',
     video_url: 'https://www.youtube.com/watch?v=eoAkV50wDtc&t=9s',
     status: 'publish',
   }
@@ -79,19 +79,4 @@ const subscribers = [
   },
 ];
 
-const revenue = [
-  { month: 'Jan' },
-  { month: 'Feb' },
-  { month: 'Mar' },
-  { month: 'Apr' },
-  { month: 'May' },
-  { month: 'Jun' },
-  { month: 'Jul' },
-  { month: 'Aug' },
-  { month: 'Sep' },
-  { month: 'Oct' },
-  { month: 'Nov' },
-  { month: 'Dec' },
-];
-
-export { subscribers, posts, admins, revenue };
+export { subscribers, posts, admins };

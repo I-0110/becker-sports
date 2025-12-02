@@ -5,21 +5,10 @@ import {
   PostForm,
   PostsTable,
   LatestPostRaw,
-  Revenue,
   CategoryStats,
 } from './definitions';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
-
-export async function fetchRevenue() {
-  try {
-    const data = await sql<Revenue[]>`SELECT * FROM revenue`;
-    return data;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
-  }
-}
 
 export async function fetchLatestPosts() {
   try {

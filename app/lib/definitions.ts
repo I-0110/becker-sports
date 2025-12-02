@@ -30,11 +30,6 @@ export type Post = {
   status: 'draft' | 'publish';
 };
 
-export type Revenue = {
-  month: string;
-  // revenue: number;
-};
-
 export type LatestPost = {
   id: string;
   name: string; //Admin name
