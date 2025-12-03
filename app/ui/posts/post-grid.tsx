@@ -27,6 +27,7 @@ export default async function PostGrid({ category }: { category: string }) {
                     alt={post.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform"
+                    unoptimized 
                   />
                 </div>
               )}

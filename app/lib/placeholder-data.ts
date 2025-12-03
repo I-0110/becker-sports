@@ -24,7 +24,7 @@ const posts = [
     content: 'This is our first post about sports news and updates. Stay tuned for more exciting content!',
     category: 'chiefs',
     image_url: 'https://en.wikipedia.org/wiki/File:American_football.svg',
-    video_url: 'https://www.youtube.com/watch?v=CLyCt9-742o&t=70s',
+    video_url: 'https://www.youtube.com/embed/8tokil7vnE4?si=fhdRC8exaUi3yoGa',
     status: 'publish',
   },
   {
@@ -35,7 +35,7 @@ const posts = [
     content: 'Meet the guy behind the writing. From Hays, KS, he grew up watching football with his dad and seeing the ups and downs of the Chief for more than 30 years. He studied statistics at K-State. What Alex\'s brings? Neutral stats about players, projects that you might be interesting in reading, and food (while you read his posts).',
     category: 'chiefs',
     image_url: 'https://en.wikipedia.org/wiki/File:American_football.svg',
-    video_url: 'https://www.youtube.com/watch?v=eoAkV50wDtc&t=9s',
+    video_url: 'https://www.youtube.com/embed/8tokil7vnE4?si=fhdRC8exaUi3yoGa',
     status: 'publish',
   }
 ]

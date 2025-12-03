@@ -34,6 +34,7 @@ export type State = {
         adminId?: string[];
         title?: string[];
         content?: string[];
+        category?: string[];
         status?: string[];
     };
     message?: string | null;
@@ -45,6 +46,7 @@ export async function createPost(prevState: State, formData: FormData) {
     adminId: formData.get('adminId'),
     title: formData.get('title'),
     content: formData.get('content'),
+    category: formData.get('category'),
     status: formData.get('status'),
   });
  

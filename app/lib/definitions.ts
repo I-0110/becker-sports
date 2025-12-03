@@ -51,6 +51,14 @@ export type LatestPostRaw = {
   video_url: string;
 };
 
+export const Categories = [
+  { value: '101', label: '101' },
+  { value: 'chiefs', label: 'Chiefs' },
+  { value: 'draft', label: 'Draft' },
+  { value: 'fantasy', label: 'Fantasy' },
+  { value: 'hof', label: 'Hall of Fame' },
+] as const;
+
 export type PostsTable = {
   id: string;
   admin_id: string;
@@ -90,8 +98,12 @@ export type AdminField = {
 export type PostForm = {
   id: string;
   admin_id: string;
+  name: string;
+  date: string;
   title: string;
   content: string;
+  image_url: string;
+  video_url: string;
   category: '101' | 'chiefs' | 'draft' | 'fantasy' | 'hof';
   status: 'draft' | 'publish';
 };

@@ -211,11 +211,16 @@ export async function fetchPostById(id: string) {
       SELECT
         posts.id,
         posts.admin_id,
+        posts.date,
         posts.title,
         posts.content,
+        posts.image_url,
+        posts.video_url,
         posts.category,
-        posts.status
+        posts.status,
+        admins.name
       FROM posts
+      JOIN admins ON posts.admin_id = admins.id
       WHERE posts.id = ${id};
     `;
 

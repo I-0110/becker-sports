@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { Categories } from '@/app/lib/definitions';
 import { editPost, State } from '@/app/lib/actions';
 import { useActionState } from 'react';
 
@@ -132,7 +133,7 @@ export default function EditPostForm({
               <option value="" disabled>
                 Select a category
               </option>
-              {categories.map((category) => (
+              {Categories.map((category) => (
                 <option key={category.value} value={category.value}>
                   {category.label}
                 </option>
