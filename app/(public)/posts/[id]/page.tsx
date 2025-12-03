@@ -5,7 +5,7 @@ import { formatDateToLocal } from "@/app/lib/utils";
 import CategoryBadge from "@/app/ui/posts/category-badge";
 import Link from 'next/link';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Nav from '@/app/ui/nav';
+import NavBar from '@/app/ui/nav';
 
 export default async function PostPage({ 
   params 
@@ -19,9 +19,10 @@ export default async function PostPage({
         notFound();
     }
 
-    return (
+  return (
+    <main className="flex min-h-screen flex-col p-6">
+      <NavBar />
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <Nav />
       {/* Back button */}
       <Link
         href="/"
@@ -75,5 +76,6 @@ export default async function PostPage({
         </div>
       )}
     </div>  
-    );
+  </main>
+  );
 }
